@@ -1,0 +1,19 @@
+
+.button:hover{
+    -fx-cursor: hand;
+    -fx-background-color: rgba(227, 210, 106, 0.86);
+    -fx-border-color: blueviolet;
+
+}
+.field:hover{
+    -fx-cursor: hand;
+    -fx-border-color: #40e53a;
+}
+.redButton:hover{
+    -fx-cursor: hand;
+    -fx-background-color: rgba(243, 91, 96, 0.86);
+}
+.table:hover{
+    -fx-cursor: hand;
+    -fx-background-color: rgba(154, 202, 238, 0.45);
+}
