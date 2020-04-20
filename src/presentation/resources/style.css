@@ -1,0 +1,44 @@
+root
+{
+    -fx-background-color: black;
+}
+
+* {
+    -fx-color1: #0b132b;
+    -fx-color2: #1c2541;
+    -fx-color3: #3a506b;
+    -fx-color4: #5bc0be;
+    -fx-color5: #ffffff;
+}
+
+#menu
+{
+    -fx-background-color: -fx-color1;
+    -fx-font-size: 14;
+}
+
+#menu Label
+{
+    fx-font-size: 16;
+    -fx-text-fill: -fx-color5;
+    -fx-padding: 10 10 5 10;
+}
+
+#menu Label FontAwesomeIconView
+{
+    -fx-fill: -fx-color5;
+}
+
+#menu Button
+{
+//-fx-background-color: -fx-color2;
+    -fx-background-color: Transparent;
+    -fx-text-fill: -fx-color5;
+    -fx-padding: 5 10;
+}
+
+#menu Button:hover
+{
+    -fx-text-fill: -fx-color3;
+    -fx-font-weight: bold;
+}
