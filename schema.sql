@@ -23,6 +23,9 @@ CREATE TABLE tblProduct
 	fldProductId int IDENTITY(1,1) PRIMARY KEY,
 	fldName VARCHAR(50) NOT NULL,
 	fldCategory int NOT NULL,
+	fldPrice FLOAT NOT NULL,
+	fldCurrentStock int NOT NULL,
+	fldMinimumStock int NOT NULL,
 	fldSupplierId INT FOREIGN KEY REFERENCES tblSupplier(fldSupplierId)
 )
 
