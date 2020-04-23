@@ -1,31 +1,28 @@
 package persistence;
 
 import presentation.models.Category;
-import presentation.models.Product;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDao implements Dao<Category>
 {
-    private Connection connection = Database.getConnection();
-
     @Override
     public Object get(long id)
     {
         try
         {
-            Statement stmt = connection.createStatement();
+            Connection connection = Database.getConnection();
+            Statement stmt = Database.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM tblProduct WHERE fldProductId=" + id);
 
             if (rs.next())
             {
                 return extractProduct(rs);
             }
+
+            connection.close();
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -39,6 +36,7 @@ public class CategoryDao implements Dao<Category>
     {
         try
         {
+            Connection connection = Database.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM tblCategory");
 
@@ -49,6 +47,8 @@ public class CategoryDao implements Dao<Category>
                 Category category = extractProduct(rs);
                 categories.add(category);
             }
+
+            connection.close();
 
             return categories;
         } catch (SQLException e)
@@ -62,19 +62,53 @@ public class CategoryDao implements Dao<Category>
     @Override
     public void save(Category category)
     {
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO tblCategory (fldName) VALUES (?)");
+            ps.setString(1, category.getName());
+            ps.execute();
+            connection.close();
 
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void update(Category category, String[] params)
     {
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE tblCategory SET fldName = ? WHERE fldName = ? ");
+            ps.setString(1, params[0]);
+            ps.setString(2, category.getName());
+            ps.execute();
+            connection.close();
 
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Category category)
     {
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM tblCategory WHERE fldName=?");
+            ps.setString(1, category.getName());
+            ps.execute();
+            connection.close();
 
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private Category extractProduct(ResultSet rs) throws SQLException

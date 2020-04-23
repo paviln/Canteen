@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -18,25 +20,42 @@
                <graphic>
                   <FontAwesomeIconView glyphName="ARCHIVE" />
                </graphic></Label>
-            <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showProducts" text="Products" />
-            <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showCategories" text="Categorys" />
-            <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Stock" />
+            <Button fx:id="productsBtn" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#menuHandler" styleClass="current" text="Products" />
+            <Button fx:id="categoriesBtn" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#menuHandler" text="Categories" />
+            <Button fx:id="stockBtn" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#menuHandler" text="Stock" />
          </children>
       </VBox>
    </left>
    <center>
       <StackPane fx:id="center" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="tblProduct" prefHeight="200.0" prefWidth="200.0" visible="false">
-              <columns>
-                <TableColumn fx:id="fldName" prefWidth="75.0" text="Name" />
-                <TableColumn fx:id="fldCategory" prefWidth="75.0" text="Category" />
-                  <TableColumn fx:id="fldPrice" prefWidth="75.0" text="Price" />
-                  <TableColumn fx:id="fldCurrentStock" prefWidth="107.0" text="Current stock" />
-                  <TableColumn fx:id="fldMinimumStock" prefWidth="117.0" text="Minimum stock" />
-              </columns>
-            </TableView>
-            <ListView fx:id="tblCategories" prefHeight="200.0" prefWidth="200.0" visible="false" />
+            <VBox fx:id="productsDisplay" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="tblProduct" prefHeight="200.0" prefWidth="200.0" visible="false">
+                    <columns>
+                      <TableColumn fx:id="fldName" prefWidth="75.0" text="Name" />
+                      <TableColumn fx:id="fldCategory" prefWidth="75.0" text="Category" />
+                        <TableColumn fx:id="fldPrice" prefWidth="75.0" text="Price" />
+                        <TableColumn fx:id="fldCurrentStock" prefWidth="107.0" text="Current stock" />
+                        <TableColumn fx:id="fldMinimumStock" prefWidth="117.0" text="Minimum stock" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+            <VBox fx:id="categoriesDisplay" opacity="0.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ListView fx:id="tblCategories" minHeight="-Infinity" prefHeight="354.0" prefWidth="450.0" />
+                  <AnchorPane maxHeight="-Infinity" prefHeight="60.0" prefWidth="450.0">
+                     <children>
+                        <TextField fx:id="categoryField" layoutX="58.0" layoutY="17.0" />
+                        <Button layoutX="298.0" layoutY="17.0" mnemonicParsing="false" onAction="#renameCategory" prefHeight="25.0" prefWidth="65.0" text="Rename" />
+                        <Button layoutX="371.0" layoutY="17.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="25.0" prefWidth="65.0" text="Delete" />
+                        <Label layoutX="14.0" layoutY="21.0" text="Name" />
+                        <Button layoutX="225.0" layoutY="17.0" mnemonicParsing="false" onAction="#addCategory" prefHeight="25.0" prefWidth="65.0" text="Add" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
          </children>
       </StackPane>
    </center>

@@ -31,14 +31,20 @@ root
 
 #menu Button
 {
-//-fx-background-color: -fx-color2;
     -fx-background-color: Transparent;
     -fx-text-fill: -fx-color5;
     -fx-padding: 5 10;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0px;
 }
 
 #menu Button:hover
 {
-    -fx-text-fill: -fx-color3;
-    -fx-font-weight: bold;
+    -fx-background-color: -fx-color3;;
 }
+
+#menu .current
+{
+    -fx-background-color: -fx-color3;;
+}
+

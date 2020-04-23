@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class Database
 {
-    private static final String URL = "jdbc:sqlserver://localhost:1433";
+    private static final String URL = "jdbc:sqlserver://localhost";
     private static final String DATABASENAME = "Canteen";
     private static final String USERNAME = "sa";
-    private static final String PASSWORD = "Chamling2";
+    private static final String PASSWORD = "yourStrong(!)Password";
 
     public static Connection getConnection()
     {
