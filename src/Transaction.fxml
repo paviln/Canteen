@@ -22,7 +22,7 @@
          </font>
       </Text>
       <Label fx:id="employeeName" layoutX="94.0" layoutY="86.0" prefHeight="30.0" prefWidth="195.0" style="-fx-border-color: blue;" />
-      <TableView fx:id="transaction_tbl" layoutX="14.0" layoutY="149.0" prefHeight="379.0" prefWidth="803.0" style="-fx-border-color: blue;" styleClass="table" stylesheets="@emp.css">
+      <TableView fx:id="transaction_tbl" layoutX="14.0" layoutY="149.0" prefHeight="379.0" prefWidth="803.0" style="-fx-border-color: blue;" styleClass="table" stylesheets="@presentation/resources/emp.css">
         <columns>
           <TableColumn fx:id="col_date" prefWidth="198.0" text="Date" />
           <TableColumn fx:id="col_itemID" prefWidth="85.0" text="Item ID" />
@@ -30,8 +30,8 @@
             <TableColumn fx:id="col_amount" prefWidth="72.0" text="Amount" />
         </columns>
       </TableView>
-      <Button fx:id="back" layoutX="525.0" layoutY="542.0" mnemonicParsing="false" onAction="#handleButton" stylesheets="@emp.css" text="Back" />
-      <Button fx:id="next" layoutX="607.0" layoutY="542.0" mnemonicParsing="false" stylesheets="@emp.css" text="Next" />
-      <Button fx:id="close" layoutX="689.0" layoutY="542.0" mnemonicParsing="false" stylesheets="@emp.css" text="Close" />
+      <Button fx:id="back" layoutX="525.0" layoutY="542.0" mnemonicParsing="false" onAction="#handleButton" stylesheets="@presentation/resources/emp.css" text="Back" />
+      <Button fx:id="next" layoutX="607.0" layoutY="542.0" mnemonicParsing="false" stylesheets="@presentation/resources/emp.css" text="Next" />
+      <Button fx:id="close" layoutX="689.0" layoutY="542.0" mnemonicParsing="false" stylesheets="@presentation/resources/emp.css" text="Close" />
    </children>
 </AnchorPane>

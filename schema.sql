@@ -38,7 +38,8 @@ CREATE TABLE tblStaff
 CREATE TABLE tblEmployee
 (
    fldEmployeeId INT IDENTITY(1,1) PRIMARY KEY,
-   fldName VARCHAR NOT NULL
+   fldName VARCHAR NOT NULL,
+   fldCurrency MONEY NOT NULL,
 )
 
 CREATE TABLE tblTransaction

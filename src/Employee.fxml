@@ -31,20 +31,20 @@
             <Text layoutX="11.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Position" wrappingWidth="95.6708984375" />
             <Text layoutX="11.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="95.6708984375" />
             <Text layoutX="11.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone No," wrappingWidth="95.6708984375" />
-            <TextField fx:id="Emp_ID" layoutX="122.0" layoutY="34.0" pickOnBounds="false" styleClass="field" stylesheets="@emp.css" />
-            <TextField fx:id="fName" layoutX="122.0" layoutY="81.0" styleClass="field" stylesheets="@emp.css" />
-            <TextField fx:id="lName" layoutX="122.0" layoutY="120.0" styleClass="field" stylesheets="@emp.css" />
-            <TextField fx:id="email" layoutX="122.0" layoutY="168.0" styleClass="field" stylesheets="@emp.css" />
-            <TextField fx:id="phoneNo" layoutX="122.0" layoutY="211.0" styleClass="field" stylesheets="@emp.css" />
-            <TextField fx:id="address" layoutX="122.0" layoutY="252.0" styleClass="field" stylesheets="@emp.css" />
-            <TextField fx:id="department" layoutX="122.0" layoutY="349.0" styleClass="field" stylesheets="@emp.css" />
-            <RadioButton fx:id="maleButton" layoutX="125.0" layoutY="306.0" mnemonicParsing="false" styleClass="field" stylesheets="@emp.css" text="Male" />
-            <RadioButton fx:id="femaleButton" layoutX="208.0" layoutY="306.0" mnemonicParsing="false" styleClass="field" stylesheets="@emp.css" text="Female" />
+            <TextField fx:id="Emp_ID" layoutX="122.0" layoutY="34.0" pickOnBounds="false" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <TextField fx:id="fName" layoutX="122.0" layoutY="81.0" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <TextField fx:id="lName" layoutX="122.0" layoutY="120.0" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <TextField fx:id="email" layoutX="122.0" layoutY="168.0" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <TextField fx:id="phoneNo" layoutX="122.0" layoutY="211.0" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <TextField fx:id="address" layoutX="122.0" layoutY="252.0" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <TextField fx:id="department" layoutX="122.0" layoutY="349.0" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <RadioButton fx:id="maleButton" layoutX="125.0" layoutY="306.0" mnemonicParsing="false" styleClass="field" stylesheets="@presentation/resources/emp.css" text="Male" />
+            <RadioButton fx:id="femaleButton" layoutX="208.0" layoutY="306.0" mnemonicParsing="false" styleClass="field" stylesheets="@presentation/resources/emp.css" text="Female" />
             <Text layoutX="9.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Balance" wrappingWidth="95.6708984375" />
-            <TextField fx:id="balance" layoutX="120.0" layoutY="407.0" styleClass="field" stylesheets="@emp.css" />
+            <TextField fx:id="balance" layoutX="120.0" layoutY="407.0" styleClass="field" stylesheets="@presentation/resources/emp.css" />
          </children>
       </Pane>
-      <TableView fx:id="empTable" layoutX="355.0" layoutY="124.0" prefHeight="464.0" prefWidth="811.0" style="-fx-border-color: blue;" styleClass="table" stylesheets="@emp.css">
+      <TableView fx:id="empTable" layoutX="355.0" layoutY="124.0" prefHeight="464.0" prefWidth="811.0" style="-fx-border-color: blue;" styleClass="table" stylesheets="@presentation/resources/emp.css">
         <columns>
           <TableColumn fx:id="col_sno" prefWidth="62.0" text="S.No" />
           <TableColumn fx:id="col_empID" prefWidth="96.0" text="Employee ID" />
@@ -57,16 +57,16 @@
             <TableColumn fx:id="col_balance" prefWidth="72.0" text="Balance" />
         </columns>
       </TableView>
-      <Button fx:id="save" layoutX="374.0" layoutY="613.0" mnemonicParsing="false" stylesheets="@emp.css" text="Save" />
-      <Button fx:id="delete" layoutX="546.0" layoutY="613.0" mnemonicParsing="false" styleClass="redButton" stylesheets="@emp.css" text="Delete" />
-      <Button fx:id="update" layoutX="452.0" layoutY="613.0" mnemonicParsing="false" stylesheets="@emp.css" text="Update" />
-      <Button fx:id="clear" layoutX="643.0" layoutY="613.0" mnemonicParsing="false" styleClass="redButton" stylesheets="@emp.css" text="Clear" />
-      <Button fx:id="back" layoutX="968.0" layoutY="613.0" mnemonicParsing="false" onAction="#handleButton" stylesheets="@emp.css" text="Back" />
-      <Button fx:id="close" layoutX="1103.0" layoutY="613.0" mnemonicParsing="false" stylesheets="@emp.css" text="Close" />
+      <Button fx:id="save" layoutX="374.0" layoutY="613.0" mnemonicParsing="false" stylesheets="@presentation/resources/emp.css" text="Save" />
+      <Button fx:id="delete" layoutX="546.0" layoutY="613.0" mnemonicParsing="false" styleClass="redButton" stylesheets="@presentation/resources/emp.css" text="Delete" />
+      <Button fx:id="update" layoutX="452.0" layoutY="613.0" mnemonicParsing="false" stylesheets="@presentation/resources/emp.css" text="Update" />
+      <Button fx:id="clear" layoutX="643.0" layoutY="613.0" mnemonicParsing="false" styleClass="redButton" stylesheets="@presentation/resources/emp.css" text="Clear" />
+      <Button fx:id="back" layoutX="968.0" layoutY="613.0" mnemonicParsing="false" onAction="#handleButton" stylesheets="@presentation/resources/emp.css" text="Back" />
+      <Button fx:id="close" layoutX="1103.0" layoutY="613.0" mnemonicParsing="false" stylesheets="@presentation/resources/emp.css" text="Close" />
       <Pane layoutX="856.0" layoutY="31.0" prefHeight="77.0" prefWidth="311.0">
          <children>
-            <TextField fx:id="searchField" layoutX="4.0" layoutY="23.0" promptText="write key word or name" styleClass="field" stylesheets="@emp.css" />
-            <Button fx:id="searchButton" layoutX="190.0" layoutY="22.0" mnemonicParsing="false" prefHeight="5.0" prefWidth="120.0" stylesheets="@emp.css" text="Search">
+            <TextField fx:id="searchField" layoutX="4.0" layoutY="23.0" promptText="write key word or name" styleClass="field" stylesheets="@presentation/resources/emp.css" />
+            <Button fx:id="searchButton" layoutX="190.0" layoutY="22.0" mnemonicParsing="false" prefHeight="5.0" prefWidth="120.0" stylesheets="@presentation/resources/emp.css" text="Search">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -90,13 +90,13 @@
             </Label>
          </children>
       </Pane>
-      <Button fx:id="next" layoutX="1036.0" layoutY="612.0" mnemonicParsing="false" stylesheets="@emp.css" text="Next" />
+      <Button fx:id="next" layoutX="1036.0" layoutY="612.0" mnemonicParsing="false" stylesheets="@presentation/resources/emp.css" text="Next" />
       <ToolBar layoutX="14.0" layoutY="9.0" prefHeight="45.0" prefWidth="205.0">
         <items>
           <Button mnemonicParsing="false" text="Employee" />
             <Button mnemonicParsing="false" text="Transaction" />
         </items>
       </ToolBar>
-      <Button fx:id="back1" layoutX="774.0" layoutY="612.0" mnemonicParsing="false" stylesheets="@emp.css" text="Show Transaction" />
+      <Button fx:id="back1" layoutX="774.0" layoutY="612.0" mnemonicParsing="false" stylesheets="@presentation/resources/emp.css" text="Show Transaction" />
    </children>
 </AnchorPane>

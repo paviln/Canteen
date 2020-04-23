@@ -9,7 +9,7 @@ public class Database
     private static final String URL = "jdbc:sqlserver://localhost:1433";
     private static final String DATABASENAME = "Canteen";
     private static final String USERNAME = "sa";
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "Chamling2";
 
     public static Connection getConnection()
     {
