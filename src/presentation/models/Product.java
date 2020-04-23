@@ -4,7 +4,7 @@ public class Product
 {
     private int id;
     private String name;
-    private int Category;
+    private int category;
     private String price;
     private int currentStock;
     private int minimumStock;
@@ -42,12 +42,12 @@ public class Product
 
     public int getCategory()
     {
-        return Category;
+        return category;
     }
 
     public void setCategory(int category)
     {
-        Category = category;
+        category = category;
     }
 
     public String getPrice()

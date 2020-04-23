@@ -10,8 +10,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/presentation/views/ReceptionistView.fxml"));
         primaryStage.setTitle("Management");
-        primaryStage.setScene(new Scene(root, 300, 275));
-
+        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

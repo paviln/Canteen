@@ -18,6 +18,12 @@ CREATE TABLE tblSupplier
     fldDeliveryTime TIME(7) NOT NULL
 )
 
+CREATE TABLE tblCategory
+(
+    fldCategoryId int IDENTITY(1,1) PRIMARY KEY,
+    fldName VARCHAR(50) NOT NULL
+)
+
 CREATE TABLE tblProduct
 (
 	fldProductId int IDENTITY(1,1) PRIMARY KEY,

@@ -1,6 +1,5 @@
 package persistence;
 
-
 import presentation.models.Product;
 
 import java.sql.*;
@@ -9,7 +8,7 @@ import java.util.List;
 
 public class ProductDao implements Dao<Product>
 {
-    Connection connection = Database.getConnection();
+    private Connection connection = Database.getConnection();
 
     @Override
     public Product get(long id)
@@ -19,7 +18,7 @@ public class ProductDao implements Dao<Product>
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM tblProduct WHERE fldProductId=" + id);
 
-            if(rs.next())
+            if (rs.next())
             {
                 return extractProduct(rs);
             }

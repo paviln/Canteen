@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -17,18 +19,24 @@
                   <FontAwesomeIconView glyphName="ARCHIVE" />
                </graphic></Label>
             <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showProducts" text="Products" />
+            <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showCategories" text="Categorys" />
             <Button alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Stock" />
          </children>
       </VBox>
    </left>
    <center>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane fx:id="center" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox id="Products" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <ListView prefHeight="288.0" prefWidth="450.0" />
-               </children>
-            </VBox>
+            <TableView fx:id="tblProduct" prefHeight="200.0" prefWidth="200.0" visible="false">
+              <columns>
+                <TableColumn fx:id="fldName" prefWidth="75.0" text="Name" />
+                <TableColumn fx:id="fldCategory" prefWidth="75.0" text="Category" />
+                  <TableColumn fx:id="fldPrice" prefWidth="75.0" text="Price" />
+                  <TableColumn fx:id="fldCurrentStock" prefWidth="107.0" text="Current stock" />
+                  <TableColumn fx:id="fldMinimumStock" prefWidth="117.0" text="Minimum stock" />
+              </columns>
+            </TableView>
+            <ListView fx:id="tblCategories" prefHeight="200.0" prefWidth="200.0" visible="false" />
          </children>
       </StackPane>
    </center>
