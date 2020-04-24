@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import persistence.ProductDao;
@@ -61,12 +62,22 @@ public class ManagerController
         fldCurrentStock.setCellValueFactory(new PropertyValueFactory<Product, String>("currentStock"));
         fldMinimumStock.setCellValueFactory(new PropertyValueFactory<Product, String>("minimumStock"));
 
+        tblProduct.setOnMouseClicked((MouseEvent event) ->
+        {
+            productsEdit();
+            tblProduct.getSelectionModel().select(0);
+        });
+
         tblCategories.setOnMouseClicked(event ->
         {
             categoryField.setText(tblCategories.getSelectionModel().getSelectedItem());
         });
     }
 
+    /**
+     * Handles menu button presses
+     * @param e
+     */
     @FXML
     private void menuHandler(ActionEvent e)
     {
@@ -83,13 +94,19 @@ public class ManagerController
         }
     }
 
+    private void productsEdit()
+    {
+        if (tblProduct.getSelectionModel().getSelectedItem() != null)
+        {
+            Product selectedPerson = tblProduct.getSelectionModel().getSelectedItem();
+        }
+    }
+
     private void showProducts()
     {
-        // Test DAO methods
+        tblProduct.getItems().clear();
         ProductDao productDao = new ProductDao();
-
         List<Product> products = productDao.getAll();
-
         tblProduct.getItems().addAll(products);
     }
 
@@ -108,24 +125,28 @@ public class ManagerController
         }
     }
 
+    /**
+     * Changes the display according to the menu
+     * @param display
+     */
     private void changeDisplay(Display display)
     {
-        productsDisplay.setOpacity(0);
-        categoriesDisplay.setOpacity(0);
         productsBtn.getStyleClass().remove("current");
         categoriesBtn.getStyleClass().remove("current");
+        productsDisplay.setVisible(false);
+        categoriesDisplay.setVisible(false);
 
         switch (display)
         {
             case Products:
                 showProducts();
                 productsBtn.getStyleClass().add("current");
-                productsDisplay.setOpacity(1);
+                productsDisplay.setVisible(true);
                 break;
             case Categories:
                 showCategories();
                 categoriesBtn.getStyleClass().add("current");
-                categoriesDisplay.setOpacity(1);
+                categoriesDisplay.setVisible(true);
         }
     }
 
