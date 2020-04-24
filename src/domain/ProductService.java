@@ -1,18 +1,20 @@
 package domain;
 
 import persistence.ProductDao;
+import persistence.SupplierDao;
 import presentation.models.Product;
+import presentation.models.Supplier;
 
 import java.util.List;
 
 public class ProductService
 {
-    private static boolean alreadyExist(Product product)
+    private static boolean validSupplier(Product product)
     {
-        ProductDao productDao = new ProductDao();
-        for (Product p : productDao.getAll())
+        SupplierDao supplierDao = new SupplierDao();
+        for (Supplier supplier : supplierDao.getAll())
         {
-            if (p.equals(product))
+            if (supplier.equals(product))
             {
                 return true;
             }
@@ -20,11 +22,24 @@ public class ProductService
         return false;
     }
 
+    private static boolean doesNotExist(Product product)
+    {
+        ProductDao productDao = new ProductDao();
+        for (Product p : productDao.getAll())
+        {
+            if (p.equals(product))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void addProduct(Product product)
     {
         ProductDao productDao = new ProductDao();
 
-        if (!alreadyExist(product))
+        if (doesNotExist(product) && validSupplier(product))
         {
             productDao.save(product);
         }
@@ -34,9 +49,9 @@ public class ProductService
     {
         ProductDao productDao = new ProductDao();
 
-        if (!alreadyExist(product))
+        if (doesNotExist(product) && validSupplier(product))
         {
-            productDao.update(product);
+            productDao.update(product);½
         }
     }
 
