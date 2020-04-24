@@ -1,6 +1,5 @@
 package persistence;
 
-import presentation.models.Product;
 import presentation.models.Supplier;
 
 import java.sql.*;
@@ -10,8 +9,30 @@ import java.util.List;
 public class SupplierDao implements Dao<Supplier>
 {
     @Override
-    public Object get(long id)
+    public Supplier get(int id)
     {
+        try
+        {
+            Connection connection = Database.getConnection();
+            Statement stmt = Database.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM tblSupplier WHERE fldSupplierId=" + id);
+
+            if (rs.next())
+            {
+                Supplier supplier = new Supplier();
+                supplier.setId(rs.getInt(1));
+                supplier.setName(rs.getString(2));
+                supplier.setPhone(rs.getString(3));
+                supplier.setDeliveryTime(rs.getString(4));
+                return supplier;
+            }
+
+            connection.close();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
         return null;
     }
 

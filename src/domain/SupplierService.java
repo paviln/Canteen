@@ -31,6 +31,12 @@ public class SupplierService
         }
     }
 
+    public static Supplier getSupplier(int id)
+    {
+        SupplierDao supplierDao = new SupplierDao();
+        return supplierDao.get(id);
+    }
+
     public static List<Supplier> getSuppliers()
     {
         SupplierDao supplierDao = new SupplierDao();

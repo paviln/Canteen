@@ -9,7 +9,7 @@ import java.util.List;
 public class CategoryDao implements Dao<Category>
 {
     @Override
-    public Object get(long id)
+    public Category get(int id)
     {
         try
         {
@@ -19,7 +19,7 @@ public class CategoryDao implements Dao<Category>
 
             if (rs.next())
             {
-                return extractProduct(rs);
+                return extractCategory(rs);
             }
 
             connection.close();
@@ -44,7 +44,7 @@ public class CategoryDao implements Dao<Category>
 
             while (rs.next())
             {
-                Category category = extractProduct(rs);
+                Category category = extractCategory(rs);
                 categories.add(category);
             }
 
@@ -110,11 +110,11 @@ public class CategoryDao implements Dao<Category>
         }
     }
 
-    private Category extractProduct(ResultSet rs) throws SQLException
+    private Category extractCategory(ResultSet rs) throws SQLException
     {
         Category category = new Category();
+        category.setId(rs.getInt("fldCategoryId"));
         category.setName(rs.getString("fldName"));
-
         return category;
     }
 }

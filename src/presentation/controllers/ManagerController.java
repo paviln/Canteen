@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import presentation.models.Category;
 import presentation.models.Display;
 import presentation.models.Product;
@@ -38,7 +39,13 @@ public class ManagerController
     private TableColumn<Supplier, String> fldSupplierName, fldSupplierPhoneNumber, fldSupplierDeliveryTime;
 
     @FXML
-    private TextField productName, productCategory, productPrice, productCurrent, productMinimum, productSupplier, supplierName, supplierPhoneNumber, supplierDeliveryTime;
+    private TextField productName, productPrice, productCurrent, productMinimum, supplierName, supplierPhoneNumber, supplierDeliveryTime;
+
+    @FXML
+    private ChoiceBox<Category> productCategory;
+
+    @FXML
+    private ChoiceBox<Supplier> productSupplier;
 
     @FXML
     private ListView<Category> tblCategories;
@@ -101,6 +108,38 @@ public class ManagerController
                 }
             }
         });
+
+        productCategory.setConverter(new StringConverter<Category>()
+        {
+            @Override
+            public String toString(Category category)
+            {
+                return category.getName();
+            }
+
+            @Override
+            public Category fromString(String string)
+            {
+                return null;
+            }
+        });
+
+        productSupplier.setConverter(new StringConverter<Supplier>()
+        {
+            @Override
+            public String toString(Supplier supplier)
+            {
+                return supplier.getName();
+            }
+
+            @Override
+            public Supplier fromString(String string)
+            {
+                return null;
+            }
+        });
+
+
         // Show the current products
         showProducts();
     }
@@ -166,7 +205,22 @@ public class ManagerController
     private void showProducts()
     {
         tblProduct.getItems().clear();
+        productName.clear();
+        productCategory.getItems().clear();
+        productPrice.clear();
+        productCurrent.clear();
+        productMinimum.clear();
+        productSupplier.getItems().clear();
+
         tblProduct.getItems().addAll(ProductService.getProducts());
+        for (Category category : CategoryService.getCategories())
+        {
+            productCategory.getItems().add(category);
+        }
+        for (Supplier supplier : SupplierService.getSuppliers())
+        {
+            productSupplier.getItems().add(supplier);
+        }
     }
 
     /**
@@ -192,15 +246,15 @@ public class ManagerController
 
     private Product productInput()
     {
-        if (!productName.getText().isEmpty() && !productCategory.getText().isEmpty() && !productPrice.getText().isEmpty() && !productCurrent.getText().isEmpty() && !productMinimum.getText().isEmpty())
+        if (!productName.getText().isEmpty() && !productPrice.getText().isEmpty() && !productCurrent.getText().isEmpty() && !productMinimum.getText().isEmpty())
         {
             Product product = new Product();
             product.setName(productName.getText());
-            product.setCategory(Integer.parseInt(productCategory.getText()));
+            product.setCategory(productCategory.getValue().getId());
             product.setPrice(productPrice.getText());
             product.setCurrentStock(Integer.parseInt(productCurrent.getText()));
             product.setMinimumStock(Integer.parseInt(productMinimum.getText()));
-            product.setSupplierId(Integer.parseInt(productSupplier.getText()));
+            product.setSupplierId(productSupplier.getValue().getId());
 
             return product;
         }
@@ -213,11 +267,23 @@ public class ManagerController
         {
             Product selectedProduct = tblProduct.getSelectionModel().getSelectedItem();
             productName.setText(selectedProduct.getName());
-            productCategory.setText(String.valueOf(selectedProduct.getCategory()));
+            for (int i = 0; i < productCategory.getItems().size(); i++)
+            {
+                if (productCategory.getItems().get(i).getId() == selectedProduct.getCategory())
+                {
+                    productCategory.getSelectionModel().select(i);
+                }
+            }
             productPrice.setText(selectedProduct.getPrice());
             productCurrent.setText(String.valueOf(selectedProduct.getCurrentStock()));
             productMinimum.setText(String.valueOf(selectedProduct.getMinimumStock()));
-            productSupplier.setText(String.valueOf(selectedProduct.getSupplierId()));
+            for (int i = 0; i < productSupplier.getItems().size(); i++)
+            {
+                if (productSupplier.getItems().get(i).getId() == selectedProduct.getSupplierId())
+                {
+                    productSupplier.getSelectionModel().select(i);
+                }
+            }
         }
     }
 

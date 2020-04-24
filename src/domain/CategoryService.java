@@ -1,7 +1,9 @@
 package domain;
 
 import persistence.CategoryDao;
+import persistence.SupplierDao;
 import presentation.models.Category;
+import presentation.models.Supplier;
 
 import java.util.List;
 
@@ -18,6 +20,12 @@ public class CategoryService
             }
         }
         return true;
+    }
+
+    public static Category getCategory(int id)
+    {
+        CategoryDao categoryDao = new CategoryDao();
+        return categoryDao.get(id);
     }
 
     public static void saveCategory(Category category)

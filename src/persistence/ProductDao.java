@@ -9,7 +9,7 @@ import java.util.List;
 public class ProductDao implements Dao<Product>
 {
     @Override
-    public Product get(long id)
+    public Product get(int id)
     {
         try
         {
@@ -113,6 +113,7 @@ public class ProductDao implements Dao<Product>
         Product product = new Product();
         product.setId(rs.getInt("fldProductId"));
         product.setName(rs.getString("fldName"));
+        product.setCategory(rs.getInt("fldCategory"));
         product.setPrice(rs.getString("fldPrice"));
         product.setCurrentStock(rs.getInt("fldCurrentStock"));
         product.setMinimumStock(rs.getInt("fldMinimumStock"));

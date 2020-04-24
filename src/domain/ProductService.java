@@ -14,7 +14,7 @@ public class ProductService
         SupplierDao supplierDao = new SupplierDao();
         for (Supplier supplier : supplierDao.getAll())
         {
-            if (supplier.equals(product))
+            if (supplier.getId() == product.getSupplierId())
             {
                 return true;
             }
@@ -25,9 +25,9 @@ public class ProductService
     private static boolean doesNotExist(Product product)
     {
         ProductDao productDao = new ProductDao();
-        for (Product p : productDao.getAll())
+        for (Product item : productDao.getAll())
         {
-            if (p.equals(product))
+            if (item.equals(product))
             {
                 return false;
             }
@@ -38,7 +38,6 @@ public class ProductService
     public static void addProduct(Product product)
     {
         ProductDao productDao = new ProductDao();
-
         if (doesNotExist(product) && validSupplier(product))
         {
             productDao.save(product);
