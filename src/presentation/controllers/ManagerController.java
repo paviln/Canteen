@@ -178,9 +178,9 @@ public class ManagerController
 
         List<Category> categories = CategoryService.getCategories();
 
-        for (Category category : categories)
+        for (int i = 0; i < categories.size(); i++)
         {
-            tblCategories.getItems().add(0, category);
+            tblCategories.getItems().add(i, categories.get(i));
         }
     }
 
