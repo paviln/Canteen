@@ -82,12 +82,11 @@ public class CategoryDao implements Dao<Category>
         try
         {
             Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE tblCategory SET fldName = ? WHERE fldName = ? ");
-            //ps.setString(1, params[0]);
-            ps.setString(2, category.getName());
+            PreparedStatement ps = connection.prepareStatement("UPDATE tblCategory SET fldName = ? WHERE fldCategoryId = ?");
+            ps.setString(1, category.getName());
+            ps.setInt(2, category.getId());
             ps.execute();
             connection.close();
-
         } catch (SQLException e)
         {
             e.printStackTrace();

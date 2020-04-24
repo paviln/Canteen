@@ -2,5 +2,5 @@ package presentation.models;
 
 public enum Display
 {
-    Products, Categories, Stock
+    Products, Categories, Suppliers
 }

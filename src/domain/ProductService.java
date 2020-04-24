@@ -48,11 +48,7 @@ public class ProductService
     public static void updateProduct(Product product)
     {
         ProductDao productDao = new ProductDao();
-
-        if (doesNotExist(product) && validSupplier(product))
-        {
-            productDao.update(product);
-        }
+        productDao.update(product);
     }
 
     public static void deleteProduct(Product product)

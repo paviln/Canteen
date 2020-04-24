@@ -3,45 +3,47 @@ package domain;
 import persistence.CategoryDao;
 import presentation.models.Category;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryService
 {
-    public static void saveCategory(String name)
+    private static boolean doesNotExist(Category category)
     {
         CategoryDao categoryDao = new CategoryDao();
-
-        Category category = new Category(name);
-
-        categoryDao.save(category);
+        for (Category item : categoryDao.getAll())
+        {
+            if (item.equals(category))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public static void deleteCategory(String name)
+    public static void saveCategory(Category category)
+    {
+        if (doesNotExist(category))
+        {
+            CategoryDao categoryDao = new CategoryDao();
+            categoryDao.save(category);
+        }
+    }
+
+    public static void deleteCategory(Category category)
     {
         CategoryDao categoryDao = new CategoryDao();
-
-        Category category = new Category(name);
-
         categoryDao.delete(category);
     }
 
-    public static ArrayList<String> getCategories()
+    public static List<Category> getCategories()
     {
         CategoryDao categoryDao = new CategoryDao();
-        List<Category> categories = categoryDao.getAll();
 
-        ArrayList<String> names = new ArrayList<>();
-        for (Category category : categories)
-        {
-            names.add(category.getName());
-        }
-        return names;
+        return categoryDao.getAll();
     }
-    public static void updateName(String oldName, String[] params)
+    public static void updateName(Category category)
     {
         CategoryDao categoryDao = new CategoryDao();
-        Category category = new Category(oldName);
         categoryDao.update(category);
     }
 }

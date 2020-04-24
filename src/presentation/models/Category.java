@@ -12,6 +12,11 @@ public class Category
         this.name = name;
     }
 
+    public boolean equals(Category category)
+    {
+        return this.name.equals(category.name);
+    }
+
     public int getId()
     {
         return id;

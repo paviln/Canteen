@@ -9,10 +9,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import presentation.models.Category;
 import presentation.models.Display;
 import presentation.models.Product;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ManagerController
 {
@@ -20,10 +21,10 @@ public class ManagerController
     private StackPane center;
 
     @FXML
-    private Button productsBtn, categoriesBtn, stockBtn;
+    private VBox productsDisplay, categoriesDisplay, suppliersDisplay;
 
     @FXML
-    private VBox productsDisplay;
+    private Button productsBtn, categoriesBtn, suppliersBtn;
 
     @FXML
     private TableView<Product> tblProduct;
@@ -35,10 +36,7 @@ public class ManagerController
     private TextField productName, productCategory, productPrice, productCurrent, productMinimum, productSupplier;
 
     @FXML
-    private VBox categoriesDisplay;
-
-    @FXML
-    private ListView<String> tblCategories;
+    private ListView<Category> tblCategories;
 
     @FXML
     private TextField categoryField;
@@ -62,12 +60,34 @@ public class ManagerController
 
         tblCategories.setOnMouseClicked(event ->
         {
-            categoryField.setText(tblCategories.getSelectionModel().getSelectedItem());
+            Category selectedCategory = tblCategories.getSelectionModel().getSelectedItem();
+            if (selectedCategory != null)
+            {
+                categoryField.setText(tblCategories.getSelectionModel().getSelectedItem().getName());
+            }
+        });
+
+        tblCategories.setCellFactory(param -> new ListCell<Category>()
+        {
+            @Override
+            protected void updateItem(Category item, boolean empty)
+            {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getName() == null)
+                {
+                    setText(null);
+                } else
+                {
+                    setText(item.getName());
+                }
+            }
         });
     }
 
     /**
      * Handles menu button presses
+     *
      * @param e
      */
     @FXML
@@ -82,6 +102,41 @@ public class ManagerController
                 break;
             case "Categories":
                 changeDisplay(Display.Categories);
+                break;
+            case "Suppliers":
+                changeDisplay(Display.Suppliers);
+                break;
+        }
+    }
+
+    /**
+     * Changes the display according to the menu
+     *
+     * @param display
+     */
+    private void changeDisplay(Display display)
+    {
+        productsBtn.getStyleClass().remove("current");
+        categoriesBtn.getStyleClass().remove("current");
+        suppliersBtn.getStyleClass().remove("current");
+        productsDisplay.setVisible(false);
+        categoriesDisplay.setVisible(false);
+        suppliersDisplay.setVisible(false);
+
+        switch (display)
+        {
+            case Products:
+                productsBtn.getStyleClass().add("current");
+                productsDisplay.setVisible(true);
+                break;
+            case Categories:
+                showCategories();
+                categoriesBtn.getStyleClass().add("current");
+                categoriesDisplay.setVisible(true);
+                break;
+            case Suppliers:
+                suppliersBtn.getStyleClass().add("current");
+                suppliersDisplay.setVisible(true);
                 break;
         }
     }
@@ -135,6 +190,7 @@ public class ManagerController
             {
                 product.setId(tblProduct.getSelectionModel().getSelectedItem().getId());
                 ProductService.updateProduct(product);
+                showProducts();
             }
         }
     }
@@ -163,76 +219,45 @@ public class ManagerController
     {
         tblCategories.getItems().clear();
 
-        ArrayList<String> categories = CategoryService.getCategories();
+        List<Category> categories = CategoryService.getCategories();
 
-        for (int i = 0; i < categories.size(); i++)
+        for (Category category : categories)
         {
-            tblCategories.getItems().add(categories.get(0));
-        }
-    }
-
-    /**
-     * Changes the display according to the menu
-     * @param display
-     */
-    private void changeDisplay(Display display)
-    {
-        productsBtn.getStyleClass().remove("current");
-        categoriesBtn.getStyleClass().remove("current");
-        productsDisplay.setVisible(false);
-        categoriesDisplay.setVisible(false);
-
-        switch (display)
-        {
-            case Products:
-                productsBtn.getStyleClass().add("current");
-                productsDisplay.setVisible(true);
-                break;
-            case Categories:
-                showCategories();
-                categoriesBtn.getStyleClass().add("current");
-                categoriesDisplay.setVisible(true);
+            tblCategories.getItems().add(0, category);
         }
     }
 
     @FXML
     private void addCategory()
     {
-        SelectionModel selectionModel = tblCategories.getSelectionModel();
-        if (!selectionModel.isEmpty() || !categoryField.getText().isEmpty())
+        if (!categoryField.getText().isEmpty())
         {
-            if (!tblCategories.getItems().contains(categoryField.getText()))
-            {
-                CategoryService.saveCategory(categoryField.getText());
-                tblCategories.getItems().add(categoryField.getText());
-            }
+            Category category = new Category(categoryField.getText());
+            CategoryService.saveCategory(category);
+            showCategories();
         }
     }
 
     @FXML
     private void renameCategory()
     {
-        SelectionModel selectionModel = tblCategories.getSelectionModel();
-        if (!selectionModel.isEmpty())
+        Category selectedCategory = tblCategories.getSelectionModel().getSelectedItem();
+        if (selectedCategory != null)
         {
-            CategoryService.updateName(selectionModel.getSelectedItem().toString(), new String[]{categoryField.getText()});
-            tblCategories.getItems().set(selectionModel.getSelectedIndex(), categoryField.getText());
+            selectedCategory.setName(categoryField.getText());
+            CategoryService.updateName(selectedCategory);
+            tblCategories.getItems().set(tblCategories.getSelectionModel().getSelectedIndex(), selectedCategory);
         }
     }
 
     @FXML
     private void removeCategory()
     {
-        SelectionModel selectionModel = tblCategories.getSelectionModel();
-        if (!selectionModel.isEmpty())
+        Category selectedCategory = tblCategories.getSelectionModel().getSelectedItem();
+        if (selectedCategory != null)
         {
-            CategoryService.deleteCategory(selectionModel.getSelectedItem().toString());
-            tblCategories.getItems().remove(selectionModel.getSelectedIndex());
-        }
-        else
-        {
-            CategoryService.deleteCategory(categoryField.getText());
-            tblCategories.getItems().remove(categoryField.getText());
+            CategoryService.deleteCategory(selectedCategory);
+            tblCategories.getItems().remove(selectedCategory);
         }
     }
 }

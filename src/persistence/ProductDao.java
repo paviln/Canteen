@@ -56,7 +56,14 @@ public class ProductDao implements Dao<Product>
         {
             Connection connection = Database.getConnection();
             PreparedStatement ps = connection.prepareStatement("INSERT INTO tblProduct (fldName, fldCategory, fldPrice, fldCurrentStock, fldMinimumStock, fldSupplierId) VALUES (?, ?, ?, ?, ?, ?)");
-            preparedStatementProduct(product, ps).execute();
+            ps.setString(1, product.getName());
+            ps.setInt(2, product.getCategory());
+            ps.setString(3, product.getPrice());
+            ps.setInt(4, product.getCurrentStock());
+            ps.setInt(5, product.getMinimumStock());
+            ps.setInt(6, product.getSupplierId());
+            ps.execute();
+            connection.close();
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -69,8 +76,14 @@ public class ProductDao implements Dao<Product>
         try
         {
             Connection connection = Database.getConnection();
-            PreparedStatement ps = connection.prepareStatement("UPDATE tblProduct SET fldName = ?, fldCategory = ?, fldCurrentStock = ?, fldMinimumStock = ?, fldSupplierId = ? WHERE fldProductId = ? ");
-            preparedStatementProduct(product, ps).execute();
+            PreparedStatement ps = connection.prepareStatement("UPDATE tblProduct SET fldName = ?, fldPrice = ?, fldCategory = ?, fldCurrentStock = ?, fldMinimumStock = ?, fldSupplierId = ? WHERE fldProductId = ? ");
+            ps.setString(1, product.getName());
+            ps.setString(2, product.getPrice());
+            ps.setInt(3, product.getCategory());
+            ps.setInt(4, product.getCurrentStock());
+            ps.setInt(5, product.getMinimumStock());
+            ps.setInt(6, product.getSupplierId());
+            ps.setInt(7, product.getId());
             ps.execute();
             connection.close();
         } catch (SQLException e)
@@ -105,16 +118,5 @@ public class ProductDao implements Dao<Product>
         product.setMinimumStock(rs.getInt("fldMinimumStock"));
         product.setSupplierId(rs.getInt("fldSupplierId"));
         return product;
-    }
-
-    private PreparedStatement preparedStatementProduct(Product product, PreparedStatement ps) throws SQLException
-    {
-        ps.setString(1, product.getName());
-        ps.setInt(2, product.getCategory());
-        ps.setInt(3, product.getCurrentStock());
-        ps.setInt(4, product.getMinimumStock());
-        ps.setInt(5, product.getSupplierId());
-        ps.setInt(6, product.getId());
-        return ps;
     }
 }
