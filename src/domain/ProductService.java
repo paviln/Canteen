@@ -51,7 +51,7 @@ public class ProductService
 
         if (doesNotExist(product) && validSupplier(product))
         {
-            productDao.update(product);½
+            productDao.update(product);
         }
     }
 
