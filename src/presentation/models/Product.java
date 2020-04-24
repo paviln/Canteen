@@ -12,12 +12,18 @@ public class Product
 
     public Product(){}
 
-    public Product(String name, String price, int currentStock, int minimumStock)
+    public Product(String name, int category, String price, int currentStock, int minimumStock)
     {
         this.name = name;
+        this.category = category;
         this.price = price;
         this.currentStock = currentStock;
         this.minimumStock = minimumStock;
+    }
+
+    public boolean equals(Product product)
+    {
+        return this.name.equals(product.name) && this.supplierId == product.supplierId;
     }
 
     public int getId()
@@ -47,7 +53,7 @@ public class Product
 
     public void setCategory(int category)
     {
-        category = category;
+        this.category = category;
     }
 
     public String getPrice()

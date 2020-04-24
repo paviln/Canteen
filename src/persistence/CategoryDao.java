@@ -77,13 +77,13 @@ public class CategoryDao implements Dao<Category>
     }
 
     @Override
-    public void update(Category category, String[] params)
+    public void update(Category category)
     {
         try
         {
             Connection connection = Database.getConnection();
             PreparedStatement ps = connection.prepareStatement("UPDATE tblCategory SET fldName = ? WHERE fldName = ? ");
-            ps.setString(1, params[0]);
+            //ps.setString(1, params[0]);
             ps.setString(2, category.getName());
             ps.execute();
             connection.close();

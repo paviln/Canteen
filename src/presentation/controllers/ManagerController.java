@@ -1,6 +1,7 @@
 package presentation.controllers;
 
 import domain.CategoryService;
+import domain.ProductService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -8,12 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import persistence.ProductDao;
 import presentation.models.Display;
 import presentation.models.Product;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ManagerController
 {
@@ -30,19 +29,10 @@ public class ManagerController
     private TableView<Product> tblProduct;
 
     @FXML
-    private TableColumn<Product, String> fldName;
+    private TableColumn<Product, String> fldName, fldCategory, fldPrice, fldCurrentStock, fldMinimumStock, fldSupplier;
 
     @FXML
-    private TableColumn<Product, String> fldCategory;
-
-    @FXML
-    private TableColumn<Product, String> fldPrice;
-
-    @FXML
-    private TableColumn<Product, String> fldCurrentStock;
-
-    @FXML
-    private TableColumn<Product, String> fldMinimumStock;
+    private TextField productName, productCategory, productPrice, productCurrent, productMinimum, productSupplier;
 
     @FXML
     private VBox categoriesDisplay;
@@ -61,11 +51,13 @@ public class ManagerController
         fldPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
         fldCurrentStock.setCellValueFactory(new PropertyValueFactory<Product, String>("currentStock"));
         fldMinimumStock.setCellValueFactory(new PropertyValueFactory<Product, String>("minimumStock"));
+        fldSupplier.setCellValueFactory(new PropertyValueFactory<Product, String>("supplierId"));
+
+        showProducts();
 
         tblProduct.setOnMouseClicked((MouseEvent event) ->
         {
-            productsEdit();
-            tblProduct.getSelectionModel().select(0);
+            productEdit();
         });
 
         tblCategories.setOnMouseClicked(event ->
@@ -94,20 +86,74 @@ public class ManagerController
         }
     }
 
-    private void productsEdit()
+    private Product productInput()
+    {
+        if (!productName.getText().isEmpty() && !productCategory.getText().isEmpty() && !productPrice.getText().isEmpty() && !productCurrent.getText().isEmpty() && !productMinimum.getText().isEmpty())
+        {
+            Product product = new Product();
+            product.setName(productName.getText());
+            product.setCategory(Integer.parseInt(productCategory.getText()));
+            product.setPrice(productPrice.getText());
+            product.setCurrentStock(Integer.parseInt(productCurrent.getText()));
+            product.setMinimumStock(Integer.parseInt(productMinimum.getText()));
+            product.setSupplierId(Integer.parseInt(productSupplier.getText()));
+
+            return product;
+        }
+        return null;
+    }
+
+    private void productEdit()
     {
         if (tblProduct.getSelectionModel().getSelectedItem() != null)
         {
-            Product selectedPerson = tblProduct.getSelectionModel().getSelectedItem();
+            Product selectedProduct = tblProduct.getSelectionModel().getSelectedItem();
+            productName.setText(selectedProduct.getName());
+            productCategory.setText(String.valueOf(selectedProduct.getCategory()));
+            productPrice.setText(selectedProduct.getPrice());
+            productCurrent.setText(String.valueOf(selectedProduct.getCurrentStock()));
+            productMinimum.setText(String.valueOf(selectedProduct.getMinimumStock()));
+            productSupplier.setText(String.valueOf(selectedProduct.getSupplierId()));
+        }
+    }
+
+    @FXML
+    private void addProduct()
+    {
+        Product product = productInput();
+        ProductService.addProduct(product);
+        showProducts();
+    }
+
+    @FXML
+    private void updateProduct()
+    {
+        if (tblProduct.getSelectionModel().getSelectedItem() != null)
+        {
+            Product product = productInput();
+            if (product != null)
+            {
+                product.setId(tblProduct.getSelectionModel().getSelectedItem().getId());
+                ProductService.updateProduct(product);
+            }
+        }
+    }
+
+    @FXML
+    private void removeProduct()
+    {
+        if (tblProduct.getSelectionModel().getSelectedItem() != null)
+        {
+            Product selectedProduct = tblProduct.getSelectionModel().getSelectedItem();
+            ProductService.deleteProduct(selectedProduct);
+            tblProduct.getItems().remove(selectedProduct);
         }
     }
 
     private void showProducts()
     {
         tblProduct.getItems().clear();
-        ProductDao productDao = new ProductDao();
-        List<Product> products = productDao.getAll();
-        tblProduct.getItems().addAll(products);
+        tblProduct.getItems().addAll(ProductService.getProducts());
     }
 
     /**
@@ -139,7 +185,6 @@ public class ManagerController
         switch (display)
         {
             case Products:
-                showProducts();
                 productsBtn.getStyleClass().add("current");
                 productsDisplay.setVisible(true);
                 break;
@@ -148,17 +193,6 @@ public class ManagerController
                 categoriesBtn.getStyleClass().add("current");
                 categoriesDisplay.setVisible(true);
         }
-    }
-
-    @FXML
-    private void addProduct()
-    {
-        // Test DAO methods
-        ProductDao productDao = new ProductDao();
-
-        List<Product> products = productDao.getAll();
-
-        tblProduct.getItems().addAll(products);
     }
 
     @FXML

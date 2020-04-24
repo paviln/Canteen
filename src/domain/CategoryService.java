@@ -42,6 +42,6 @@ public class CategoryService
     {
         CategoryDao categoryDao = new CategoryDao();
         Category category = new Category(oldName);
-        categoryDao.update(category, params);
+        categoryDao.update(category);
     }
 }

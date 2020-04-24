@@ -60,7 +60,7 @@ public class ProductDao implements Dao<Product>
     {
         try
         {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO tblProduct (fldName, fldCategory, fldPrice, fldCurrentStock, fldMinimumStock, fldSupplierId) VALUES (?, ?, ?, ?, ?, ?");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO tblProduct (fldName, fldCategory, fldPrice, fldCurrentStock, fldMinimumStock, fldSupplierId) VALUES (?, ?, ?, ?, ?, ?)");
 
             ps.setString(1, product.getName());
             ps.setInt(2, product.getCategory());
@@ -69,7 +69,7 @@ public class ProductDao implements Dao<Product>
             ps.setInt(5, product.getMinimumStock());
             ps.setInt(6, product.getSupplierId());
 
-            ps.executeQuery();
+            ps.execute();
 
         } catch (SQLException e)
         {
@@ -78,15 +78,42 @@ public class ProductDao implements Dao<Product>
     }
 
     @Override
-    public void update(Product product, String[] params)
+    public void update(Product product)
     {
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE tblProduct SET fldName = ?, fldCategory = ?, fldCurrentStock = ?, fldMinimumStock = ?, fldSupplierId = ? WHERE fldProductId = ? ");
+            ps.setString(1, product.getName());
+            ps.setInt(2, product.getCategory());
+            ps.setInt(3, product.getCurrentStock());
+            ps.setInt(4, product.getMinimumStock());
+            ps.setInt(5, product.getSupplierId());
+            ps.setInt(6, product.getId());
+            ps.execute();
+            connection.close();
 
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Product product)
     {
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM tblProduct WHERE fldProductId=?");
+            ps.setInt(1, product.getId());
+            ps.execute();
+            connection.close();
 
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private Product extractProduct(ResultSet rs) throws SQLException
@@ -97,6 +124,7 @@ public class ProductDao implements Dao<Product>
         product.setPrice(rs.getString("fldPrice"));
         product.setCurrentStock(rs.getInt("fldCurrentStock"));
         product.setMinimumStock(rs.getInt("fldMinimumStock"));
+        product.setSupplierId(rs.getInt("fldSupplierId"));
         return product;
     }
 }
