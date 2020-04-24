@@ -17,9 +17,9 @@ public class Supplier
         this.deliveryTime = deliveryTime;
     }
 
-    public boolean equals(Product product)
+    public boolean equals(Supplier supplier)
     {
-        return this.id == product.getSupplierId();
+        return this.name.equals(supplier.getName());
     }
 
     public int getId()
