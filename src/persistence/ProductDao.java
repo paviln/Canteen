@@ -8,16 +8,14 @@ import java.util.List;
 
 public class ProductDao implements Dao<Product>
 {
-    private Connection connection = Database.getConnection();
-
     @Override
     public Product get(long id)
     {
         try
         {
+            Connection connection = Database.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM tblProduct WHERE fldProductId=" + id);
-
             if (rs.next())
             {
                 return extractProduct(rs);
@@ -26,7 +24,6 @@ public class ProductDao implements Dao<Product>
         {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -35,23 +32,20 @@ public class ProductDao implements Dao<Product>
     {
         try
         {
+            Connection connection = Database.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM tblProduct");
-
             List<Product> products = new ArrayList<>();
-
             while (rs.next())
             {
                 Product product = extractProduct(rs);
                 products.add(product);
             }
-
             return products;
         } catch (SQLException e)
         {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -60,17 +54,9 @@ public class ProductDao implements Dao<Product>
     {
         try
         {
+            Connection connection = Database.getConnection();
             PreparedStatement ps = connection.prepareStatement("INSERT INTO tblProduct (fldName, fldCategory, fldPrice, fldCurrentStock, fldMinimumStock, fldSupplierId) VALUES (?, ?, ?, ?, ?, ?)");
-
-            ps.setString(1, product.getName());
-            ps.setInt(2, product.getCategory());
-            ps.setString(3, product.getPrice());
-            ps.setInt(4, product.getCurrentStock());
-            ps.setInt(5, product.getMinimumStock());
-            ps.setInt(6, product.getSupplierId());
-
-            ps.execute();
-
+            preparedStatementProduct(product, ps).execute();
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -84,15 +70,9 @@ public class ProductDao implements Dao<Product>
         {
             Connection connection = Database.getConnection();
             PreparedStatement ps = connection.prepareStatement("UPDATE tblProduct SET fldName = ?, fldCategory = ?, fldCurrentStock = ?, fldMinimumStock = ?, fldSupplierId = ? WHERE fldProductId = ? ");
-            ps.setString(1, product.getName());
-            ps.setInt(2, product.getCategory());
-            ps.setInt(3, product.getCurrentStock());
-            ps.setInt(4, product.getMinimumStock());
-            ps.setInt(5, product.getSupplierId());
-            ps.setInt(6, product.getId());
+            preparedStatementProduct(product, ps).execute();
             ps.execute();
             connection.close();
-
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -109,7 +89,6 @@ public class ProductDao implements Dao<Product>
             ps.setInt(1, product.getId());
             ps.execute();
             connection.close();
-
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -126,5 +105,16 @@ public class ProductDao implements Dao<Product>
         product.setMinimumStock(rs.getInt("fldMinimumStock"));
         product.setSupplierId(rs.getInt("fldSupplierId"));
         return product;
+    }
+
+    private PreparedStatement preparedStatementProduct(Product product, PreparedStatement ps) throws SQLException
+    {
+        ps.setString(1, product.getName());
+        ps.setInt(2, product.getCategory());
+        ps.setInt(3, product.getCurrentStock());
+        ps.setInt(4, product.getMinimumStock());
+        ps.setInt(5, product.getSupplierId());
+        ps.setInt(6, product.getId());
+        return ps;
     }
 }
