@@ -7,19 +7,24 @@ import java.util.List;
 
 public class ProductService
 {
-    public static void addProduct(Product product)
+    private static boolean alreadyExist(Product product)
     {
         ProductDao productDao = new ProductDao();
-
-        boolean alreadyExists = false;
         for (Product p : productDao.getAll())
         {
             if (p.equals(product))
             {
-                alreadyExists = true;
+                return true;
             }
         }
-        if (!alreadyExists)
+        return false;
+    }
+
+    public static void addProduct(Product product)
+    {
+        ProductDao productDao = new ProductDao();
+
+        if (!alreadyExist(product))
         {
             productDao.save(product);
         }
@@ -28,7 +33,11 @@ public class ProductService
     public static void updateProduct(Product product)
     {
         ProductDao productDao = new ProductDao();
-        productDao.update(product);
+
+        if (!alreadyExist(product))
+        {
+            productDao.update(product);
+        }
     }
 
     public static void deleteProduct(Product product)
@@ -36,6 +45,7 @@ public class ProductService
         ProductDao productDao = new ProductDao();
         productDao.delete(product);
     }
+
     public static List<Product> getProducts()
     {
         ProductDao productDao = new ProductDao();
