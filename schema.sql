@@ -15,7 +15,7 @@ CREATE TABLE tblSupplier
     fldSupplierId int IDENTITY(1,1) PRIMARY KEY,
     fldName VARCHAR(50) NOT NULL,
     fldPhone VARCHAR(50) NOT NULL,
-    fldDeliveryTime TIME(7) NOT NULL
+    fldDeliveryTime VARCHAR(50) NOT NULL
 )
 
 CREATE TABLE tblCategory

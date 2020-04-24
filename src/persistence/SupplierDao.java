@@ -3,10 +3,7 @@ package persistence;
 import presentation.models.Product;
 import presentation.models.Supplier;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,18 +47,53 @@ public class SupplierDao implements Dao<Supplier>
     @Override
     public void save(Supplier supplier)
     {
-
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO tblSupplier (fldName, fldPhone, fldDeliveryTime) VALUES (?, ?, ?)");
+            ps.setString(1, supplier.getName());
+            ps.setString(2, supplier.getPhone());
+            ps.setString(3, supplier.getDeliveryTime());
+            ps.execute();
+            connection.close();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void update(Supplier supplier)
     {
-
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("UPDATE tblSupplier SET fldName = ?, fldPhone = ?, fldDeliveryTime = ? WHERE fldSupplierId = ? ");
+            ps.setString(1, supplier.getName());
+            ps.setString(2, supplier.getPhone());
+            ps.setString(3, supplier.getDeliveryTime());
+            ps.setInt(4, supplier.getId());
+            ps.execute();
+            connection.close();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Supplier supplier)
     {
-
+        try
+        {
+            Connection connection = Database.getConnection();
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM tblSupplier WHERE fldSupplierId=?");
+            ps.setInt(1, supplier.getId());
+            ps.execute();
+            connection.close();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

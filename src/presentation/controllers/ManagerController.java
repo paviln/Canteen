@@ -2,6 +2,7 @@ package presentation.controllers;
 
 import domain.CategoryService;
 import domain.ProductService;
+import domain.SupplierService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 import presentation.models.Category;
 import presentation.models.Display;
 import presentation.models.Product;
+import presentation.models.Supplier;
 
 import java.util.List;
 
@@ -30,10 +32,13 @@ public class ManagerController
     private TableView<Product> tblProduct;
 
     @FXML
-    private TableColumn<Product, String> fldName, fldCategory, fldPrice, fldCurrentStock, fldMinimumStock, fldSupplier;
+    private TableColumn<Product, String> fldProductName, fldProductCategory, fldProductPrice, fldProductCurrentStock, fldProductMinimumStock, fldProductSupplier;
 
     @FXML
-    private TextField productName, productCategory, productPrice, productCurrent, productMinimum, productSupplier;
+    private TableColumn<Supplier, String> fldSupplierName, fldSupplierPhoneNumber, fldSupplierDeliveryTime;
+
+    @FXML
+    private TextField productName, productCategory, productPrice, productCurrent, productMinimum, productSupplier, supplierName, supplierPhoneNumber, supplierDeliveryTime;
 
     @FXML
     private ListView<Category> tblCategories;
@@ -42,20 +47,33 @@ public class ManagerController
     private TextField categoryField;
 
     @FXML
+    private TableView<Supplier> tblSupplier;
+
+
+    @FXML
     public void initialize()
     {
-        fldName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
-        fldCategory.setCellValueFactory(new PropertyValueFactory<Product, String>("category"));
-        fldPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
-        fldCurrentStock.setCellValueFactory(new PropertyValueFactory<Product, String>("currentStock"));
-        fldMinimumStock.setCellValueFactory(new PropertyValueFactory<Product, String>("minimumStock"));
-        fldSupplier.setCellValueFactory(new PropertyValueFactory<Product, String>("supplierId"));
+        // Set the products table fields to the appropriate type
+        fldProductName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        fldProductCategory.setCellValueFactory(new PropertyValueFactory<Product, String>("category"));
+        fldProductPrice.setCellValueFactory(new PropertyValueFactory<Product, String>("price"));
+        fldProductCurrentStock.setCellValueFactory(new PropertyValueFactory<Product, String>("currentStock"));
+        fldProductMinimumStock.setCellValueFactory(new PropertyValueFactory<Product, String>("minimumStock"));
+        fldProductSupplier.setCellValueFactory(new PropertyValueFactory<Product, String>("supplierId"));
 
-        showProducts();
+        // Set the suppliers table fields to the appropriate type
+        fldSupplierName.setCellValueFactory(new PropertyValueFactory<Supplier, String>("name"));
+        fldSupplierPhoneNumber.setCellValueFactory(new PropertyValueFactory<Supplier, String>("phone"));
+        fldSupplierDeliveryTime.setCellValueFactory(new PropertyValueFactory<Supplier, String>("deliveryTime"));
 
         tblProduct.setOnMouseClicked((MouseEvent event) ->
         {
             productEdit();
+        });
+
+        tblSupplier.setOnMouseClicked((MouseEvent event) ->
+        {
+            supplierEdit();
         });
 
         tblCategories.setOnMouseClicked(event ->
@@ -83,6 +101,8 @@ public class ManagerController
                 }
             }
         });
+        // Show the current products
+        showProducts();
     }
 
     /**
@@ -126,6 +146,7 @@ public class ManagerController
         switch (display)
         {
             case Products:
+                showProducts();
                 productsBtn.getStyleClass().add("current");
                 productsDisplay.setVisible(true);
                 break;
@@ -135,10 +156,38 @@ public class ManagerController
                 categoriesDisplay.setVisible(true);
                 break;
             case Suppliers:
+                showSuppliers();
                 suppliersBtn.getStyleClass().add("current");
                 suppliersDisplay.setVisible(true);
                 break;
         }
+    }
+
+    private void showProducts()
+    {
+        tblProduct.getItems().clear();
+        tblProduct.getItems().addAll(ProductService.getProducts());
+    }
+
+    /**
+     * Display contents of categories
+     */
+    private void showCategories()
+    {
+        tblCategories.getItems().clear();
+
+        List<Category> categories = CategoryService.getCategories();
+
+        for (Category category : categories)
+        {
+            tblCategories.getItems().add(0, category);
+        }
+    }
+
+    private void showSuppliers()
+    {
+        tblSupplier.getItems().clear();
+        tblSupplier.getItems().addAll(SupplierService.getSuppliers());
     }
 
     private Product productInput()
@@ -176,8 +225,11 @@ public class ManagerController
     private void addProduct()
     {
         Product product = productInput();
-        ProductService.addProduct(product);
-        showProducts();
+        if (product != null)
+        {
+            ProductService.addProduct(product);
+            showProducts();
+        }
     }
 
     @FXML
@@ -203,27 +255,6 @@ public class ManagerController
             Product selectedProduct = tblProduct.getSelectionModel().getSelectedItem();
             ProductService.deleteProduct(selectedProduct);
             tblProduct.getItems().remove(selectedProduct);
-        }
-    }
-
-    private void showProducts()
-    {
-        tblProduct.getItems().clear();
-        tblProduct.getItems().addAll(ProductService.getProducts());
-    }
-
-    /**
-     * Display contents of categories
-     */
-    private void showCategories()
-    {
-        tblCategories.getItems().clear();
-
-        List<Category> categories = CategoryService.getCategories();
-
-        for (Category category : categories)
-        {
-            tblCategories.getItems().add(0, category);
         }
     }
 
@@ -258,6 +289,67 @@ public class ManagerController
         {
             CategoryService.deleteCategory(selectedCategory);
             tblCategories.getItems().remove(selectedCategory);
+        }
+    }
+
+    private Supplier supplierInput()
+    {
+        if (!supplierName.getText().isEmpty() && !supplierPhoneNumber.getText().isEmpty() && !supplierDeliveryTime.getText().isEmpty())
+        {
+            Supplier supplier = new Supplier();
+            supplier.setName(supplierName.getText());
+            supplier.setPhone(supplierPhoneNumber.getText());
+            supplier.setDeliveryTime(supplierDeliveryTime.getText());
+            return supplier;
+        }
+        return null;
+    }
+
+    private void supplierEdit()
+    {
+        if (tblSupplier.getSelectionModel().getSelectedItem() != null)
+        {
+            Supplier selectedSupplier = tblSupplier.getSelectionModel().getSelectedItem();
+            supplierName.setText(selectedSupplier.getName());
+            supplierPhoneNumber.setText(selectedSupplier.getPhone());
+            supplierDeliveryTime.setText(selectedSupplier.getDeliveryTime());
+        }
+    }
+
+    @FXML
+    private void addSupplier()
+    {
+        Supplier supplier = supplierInput();
+        if (supplier != null)
+        {
+            SupplierService.addSupplier(supplier);
+            showSuppliers();
+        }
+    }
+
+    @FXML
+    private void updateSupplier()
+    {
+        if (tblSupplier.getSelectionModel().getSelectedItem() != null)
+        {
+            Supplier supplier = supplierInput();
+            if (supplier != null)
+            {
+                supplier.setId(tblSupplier.getSelectionModel().getSelectedItem().getId());
+                SupplierService.updateSupplier(supplier);
+                showSuppliers();
+            }
+        }
+    }
+
+    @FXML
+    private void removeSupplier()
+    {
+        if (tblSupplier.getSelectionModel().getSelectedItem() != null)
+        {
+            Supplier selectedSupplier = tblSupplier.getSelectionModel().getSelectedItem();
+            SupplierService.deleteProduct(selectedSupplier);
+            tblSupplier.getItems().remove(selectedSupplier);
         }
     }
 }

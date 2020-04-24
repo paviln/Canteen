@@ -33,12 +33,12 @@
                <children>
                   <TableView fx:id="tblProduct" minHeight="300.0" minWidth="450.0" prefHeight="300.0" prefWidth="450.0">
                     <columns>
-                      <TableColumn fx:id="fldName" prefWidth="56.0" text="Name" />
-                      <TableColumn fx:id="fldCategory" prefWidth="64.0" text="Category" />
-                        <TableColumn fx:id="fldPrice" prefWidth="58.0" text="Price" />
-                        <TableColumn fx:id="fldCurrentStock" prefWidth="98.0" text="Current stock" />
-                        <TableColumn fx:id="fldMinimumStock" prefWidth="99.0" text="Minimum stock" />
-                        <TableColumn fx:id="fldSupplier" prefWidth="74.0" text="Supplier" />
+                      <TableColumn fx:id="fldProductName" prefWidth="56.0" text="Name" />
+                      <TableColumn fx:id="fldProductCategory" prefWidth="64.0" text="Category" />
+                        <TableColumn fx:id="fldProductPrice" prefWidth="58.0" text="Price" />
+                        <TableColumn fx:id="fldProductCurrentStock" prefWidth="98.0" text="Current stock" />
+                        <TableColumn fx:id="fldProductMinimumStock" prefWidth="99.0" text="Minimum stock" />
+                        <TableColumn fx:id="fldProductSupplier" prefWidth="74.0" text="Supplier" />
                     </columns>
                   </TableView>
                   <AnchorPane maxHeight="-Infinity" minHeight="50.0" minWidth="450.0" prefHeight="100.0" prefWidth="450.0">
@@ -72,21 +72,21 @@
             </VBox>
             <VBox fx:id="suppliersDisplay" minHeight="400.0" minWidth="450.0" prefHeight="400.0" prefWidth="450.0">
                <children>
-                  <TableView fx:id="tblProduct1" minHeight="300.0" minWidth="450.0" prefHeight="300.0" prefWidth="450.0">
+                  <TableView fx:id="tblSupplier" minHeight="300.0" minWidth="450.0" prefHeight="300.0" prefWidth="450.0">
                      <columns>
-                        <TableColumn fx:id="fldName1" prefWidth="150.0" text="Name" />
-                        <TableColumn fx:id="fldCategory1" prefWidth="150.0" text="Phone number" />
-                        <TableColumn fx:id="fldPrice1" prefWidth="150.0" text="Delivery Time" />
+                        <TableColumn fx:id="fldSupplierName" prefWidth="150.0" text="Name" />
+                        <TableColumn fx:id="fldSupplierPhoneNumber" prefWidth="150.0" text="Phone number" />
+                        <TableColumn fx:id="fldSupplierDeliveryTime" prefWidth="150.0" text="Delivery Time" />
                      </columns>
                   </TableView>
                   <AnchorPane maxHeight="-Infinity" minHeight="100.0" minWidth="450.0" prefHeight="50.0" prefWidth="450.0">
                      <children>
-                        <TextField fx:id="categoryField1" layoutX="14.0" layoutY="13.0" prefHeight="25.0" prefWidth="125.0" promptText="Name" />
-                        <Button layoutX="193.0" layoutY="50.0" mnemonicParsing="false" onAction="#renameCategory" prefHeight="25.0" prefWidth="65.0" text="Rename" />
-                        <Button layoutX="266.0" layoutY="50.0" mnemonicParsing="false" onAction="#removeCategory" prefHeight="25.0" prefWidth="65.0" text="Delete" />
-                        <Button layoutX="120.0" layoutY="50.0" mnemonicParsing="false" onAction="#addCategory" prefHeight="25.0" prefWidth="65.0" text="Add" />
-                        <TextField fx:id="categoryField11" layoutX="163.0" layoutY="13.0" prefHeight="25.0" prefWidth="125.0" promptText="Phone Number" />
-                        <TextField fx:id="categoryField12" layoutX="311.0" layoutY="13.0" prefHeight="25.0" prefWidth="125.0" promptText="Delivery Time" />
+                        <TextField fx:id="supplierName" layoutX="14.0" layoutY="19.0" prefHeight="25.0" prefWidth="125.0" promptText="Name" />
+                        <TextField fx:id="supplierPhoneNumber" layoutX="163.0" layoutY="19.0" prefHeight="25.0" prefWidth="125.0" promptText="Phone Number" />
+                        <TextField fx:id="supplierDeliveryTime" layoutX="311.0" layoutY="19.0" prefHeight="25.0" prefWidth="125.0" promptText="Delivery Time" />
+                        <Button layoutX="193.0" layoutY="56.0" mnemonicParsing="false" onAction="#updateSupplier" prefHeight="25.0" prefWidth="65.0" text="Update" />
+                        <Button layoutX="266.0" layoutY="56.0" mnemonicParsing="false" onAction="#removeSupplier" prefHeight="25.0" prefWidth="65.0" text="Delete" />
+                        <Button layoutX="120.0" layoutY="56.0" mnemonicParsing="false" onAction="#addSupplier" prefHeight="25.0" prefWidth="65.0" text="Add" />
                      </children>
                   </AnchorPane>
                </children>
